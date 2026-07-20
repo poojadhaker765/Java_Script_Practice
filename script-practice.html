@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            /* background-color: aqua; */
+        }
+
+        /* h1 {
+            font-size: 50px;
+            font-family: sans-serif;
+            text-align: center;
+            color: blueviolet;
+            background-color: lemonchiffon;
+
+        }
+
+        p {
+            font-size: 16px;
+            text-align: left;
+            margin-top: 20px;
+            margin-left: 15px;
+        }
+                        ////////////////////////////////////////////////////////////////////////////////////s
+        button {
+            font-size: 20px;
+            text-align: left;
+            margin-top: 20px;
+            margin-left: 15px;
+            background-color: black;
+            color: white;
+
+        } */
+        * {
+            /* box-sizing: border-box; */
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #B0BA99;
+            text-align: center;
+        }
+
+        .container {
+            /* display: flex;
+            justify-content: center;*/
+            align-items: center;
+            height: 70vh;
+            /* width: 70vh; */
+            display: flex;
+            /* flex-wrap: wrap; */
+            justify-content: center;
+            align-items: center;
+            /* gap: 1.5vmin; */
+        }
+
+        .game {
+            height: 60vmin;
+            width: 60vmin;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5vmin;
+        }
+
+        .cell {
+            height: 18vmin;
+            width: 18vmin;
+            /* border-radius: 10px; */
+            border-radius: 1rem;
+            border: none;
+            border-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+            font-size: 8vmin;
+            color: #4E220F;
+            background-color: #ededc2;
+            font-weight: bold;
+        }
+
+        .reset {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 3vmin;
+            font-weight: bold;
+            border-radius: 1rem;
+            border: none;
+            background-color: #4E220F;
+            color: #e1d4a8;
+            cursor: pointer;
+            border-shadow: 0 0 1rem rgba(0, 0, 0, 0.9);
+        }
+
+        .new-game {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 3vmin;
+            font-weight: bold;
+            border-radius: 1rem;
+            border: none;
+            background-color: #4E220F;
+            color: #e1d4a8;
+            cursor: pointer;
+            border-shadow: 0 0 1rem rgba(0, 0, 0, 0.9);
+        }
+
+        #msg {
+            color: #f2eee3;
+            font-size: 5vmin;
+            font-weight: bold;
+            letter-spacing: -1px;
+            font-family: sans-serif;
+            padding-top: 50vmin;
+        }
+
+        .msg-conatiner {
+            background-color: #cdad46;
+            color: green;
+            /* align-items: center; */
+            height: 100vmin;
+            diplay: flex;
+            justify-content: center;
+            align-items: center;
+            /* flex-wrap: wrap; */
+            /* padding: top 40vmin; */
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="msg-conatiner hide">
+        <p id="msg">Winner</p>
+        <button class="new-game">
+            New Game
+        </button>
+    </div>
+    <h1>Tic Tac Toe</h1>
+    <div class="container">
+        <div class="game">
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+        </div>
+    </div>
+    <button class="reset">Reset Game</button>
+
+    <script>
+        let boxs = document.querySelectorAll(".cell");
+        let resetBtn = document.querySelector(".reset");
+        let newGameBtn = document.querySelector(".new-game");
+        let msgContainer = document.querySelector(".msg-conatiner");
+        let msg = document.querySelector("#msg");
+
+        let turnO = true;
+        const winPatterns = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        const resetGame = () => {
+            turnO = true;
+            enableBoxes();
+            msgContainer.classList.add("hide");
+        };
+
+        boxs.forEach((box) => {
+            box.addEventListener("click", () => {
+                // box.innerText = "bgdgsdf"
+                if (turnO) {
+                    box.innerText = "X";
+                    turnO = false;
+                } else {
+                    box.innerText = "O";
+                    turnO = true;
+                }
+                box.disabled = true;
+
+                checkWinner();
+            });
+        });
+        const disableBoxes = () => {
+            for (let box of boxs) {
+                box.disabled = true;
+            }
+        };
+        const enableBoxes = () => {
+            for (let box of boxs) {
+                box.disabled = false;
+                box.innerText = "";
+            }
+        };
+
+        const showWinner = (winner) => {
+            msg.innerText = `congratulation, Winner is ${winner}`;
+            msgContainer.classList.remove("hide");
+            disableBoxes();
+        };
+
+        const checkWinner = () => {
+            for (let pattern of winPatterns) {
+                let pos1 = boxs[pattern[0]].innerText;
+                let pos2 = boxs[pattern[1]].innerText;
+                let pos3 = boxs[pattern[2]].innerText;
+
+                if (pos1 != "" && pos2 != "" && pos3 != "") {
+                    if (pos1 === pos2 && pos2 === pos3) {
+                        // console.log("Winner is " + pos1);
+
+                        showWinner(pos1);
+                    }
+                }
+            }
+        };
+
+        newGameBtn.addEventListener("click", resetGame);
+        resetBtn.addEventListener("click", resetGame);
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <div>
+        <h1>Welcome to My Web Page</h1>
+        <ul>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>SQL</li>
+        </ul>
+         <button onclick="Show()">Click Me!</button> 
+        <div>
+            <h1>hello! everyone</h1>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+        </div>
+    </div> 
+
+    <script>
+        //     function Show() {
+        //         alert("Hello! Welcome to my web page. This is a simple JavaScript alert.");
+        //     }
+    //     const btn = document.querySelector("div");
+    //     btn.addEventListener("mouseover", () => {
+    //         btn.style.backgroundColor = "red";
+    //     });
+    //     btn.addEventListener("mouseout", () => {
+    //         btn.style.backgroundColor = "aqua";
+    //     });
+
+    // </script>--->
+    <!-- <div class="box">
+        <h1>hello! everyone</h1>
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Ea ullam natus totam alias facere tempore ratione iusto eos doloremque assumenda architecto officia, quis,
+            voluptatibus corrupti quae distinctio! Et, dicta ab?</p>
+    </div>
+    <h1 id="child1">This is HTMl page and apply Java script</h1>
+    <h2 class="child2">Java Script</h2>
+    <p class="p1">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam earum voluptatibus hic quos
+        explicabo molestiae
+        mollitia corrupti dolor id aliquid consequuntur, aliquam, nemo soluta tempore enim possimus quas voluptate
+        quaerat.</p>
+    <button>Click Me</button> -->
+
+
+
+    <!-- <script>
+        alert("hello");
+    </script> -->
+    <script src="script.js">
+
+    </script>
+</body>
+
+</html>
