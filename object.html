@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>classes and object</title>
+</head>
+
+<body>
+    <script>
+        const student = {
+            Name: "pooja dhaker",
+            Course: "MCA",
+            CGPA: 8.67,
+            printMarks: function () {
+                console.log("CGPA :", this.CGPA);
+            }
+        }
+        // console.log(student.printMarks());
+
+
+        const employee = {
+            calcTax() {
+                console.log("Tax rate is 10%");
+            },
+            calcTax2: function () {
+                console.log("tax rate is 20%");
+            }
+        };
+
+        const KaranArjun = {
+            salary: 5000,
+        };
+        KaranArjun.__proto__ = employee;
+        // console.log(KaranArjun.calcTax())
+
+        // classes
+        class ToyotaCar {
+            start() {
+                console.log("start");
+            }
+            stop() {
+                console.log("stop");
+            }
+            // setBrand(brand) {
+            //     this.brandName = brand;
+            // }
+            constructor(model, mileage) {
+                this.model = model;
+                this.mileage = mileage;
+                console.log("create a constructor.");
+            }
+        }
+        // let obj = new ToyotaCar("lambogini", 20);
+        // console.log(obj);
+
+        // constructor();
+
+        //Inheritance
+        // class Parent {
+        //     hello1() {
+        //         console.log("parent class");
+        //     }
+        // }
+        // class Child extends Parent {
+        //     hello() {
+        //         console.log("child class");
+        //     }
+        // }
+        // let obj1 = new Child();
+        // obj1.hello();
+        // obj1.hello1();
+
+        class Person {
+            constructor() {
+                this.spaecies = "homo sipiens";
+                console.log("enter parent constructor")
+            }
+            eat() {
+                console.log("eat");
+            }
+            sleep() {
+                console.log("sleep");
+            }
+        }
+        class Engineer extends Person {
+            constructor(branch) {
+                console.log("enter child constructor")
+                super();
+                this.branch = branch;
+            }
+            work() {
+                console.log("Build something new");
+            }
+        }
+        class Doctor extends Person {
+            work() {
+                console.log("treat patients.");
+            }
+        }
+        // let obj2 = new Engineer("camical enginner");
+        // obj2.work();
+        // obj2.eat();
+
+        //Practice question
+        let data = "secreate information"
+        class College {
+            User(name, email) {
+                this.name = name;
+                this.email = email;
+            }
+            viewData() {
+                console.log("data=", data);
+
+            }
+        }
+        let c1 = new College()
+        let c2 = new College()
+        c1.User("pooja", "poojadhaker@gmail.com");
+        c2.User("pooja", "poojadhaker@gmail.com");
+        // console.log(c1)
+        // console.log(c2)
+        // console.log(c1.email)
+
+        //Asynchronous programming
+        // function hello(){
+        //     console.log("hello")
+        // }
+
+        // setTimeout(hello, 2000)//timeout; 2s=2000ms
+        // console.log("hello first")
+        // setTimeout(() => {
+        //     console.log("hello");
+        // }, 2000)
+        // console.log("last hello");
+
+        //callback
+        function sum(a, b) {
+            console.log(a + b);
+            console.log(a * b)
+        }
+        function calculator(a, b, sumCallback) {
+            sumCallback(a, b);
+        }
+        // calculator(1, 2, sum);
+
+        //arrow function
+        const hello = () => {
+            console.log("hello");
+        }
+        setTimeout(hello, 2000);
+    </script>
+</body>
+
+</html>
